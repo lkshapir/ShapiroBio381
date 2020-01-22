@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## R Portfolio 
 
 **Homework #1**
-
+<br/>
 Typora document:
 [link](Practice.html)
 
