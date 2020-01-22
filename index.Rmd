@@ -15,8 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Homework #1**     
 <br/>
-Typora document:
-[link](Practice.html)
+[Typora Document](Practice.html)
 
 
 
