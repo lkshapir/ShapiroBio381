@@ -1,2 +1,2 @@
 # ShapiroBio381
-my Bio381 test repo 
+my Computational Biology test repo 
