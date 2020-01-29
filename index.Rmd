@@ -14,8 +14,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ## R Portfolio 
 
 **Homework #1**     
-<br/>
 [Typora Document](Practice.html)
+
+**Homework #2**
+<br/>
+[Regular Expressions Puzzles](HW3.html)
+
 
 
 
