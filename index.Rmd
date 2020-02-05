@@ -20,6 +20,8 @@ knitr::opts_chunk$set(echo = TRUE)
 <br/>
 [Regular Expressions Puzzles](HW3.html)
 
-
+**Homework #3**
+<br/>
+[R problems](HW-4.html)
 
 

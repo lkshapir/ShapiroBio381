@@ -9,6 +9,7 @@ output: html_document
 **1.**
 
 *Find*
+
 ```
 \s{2,}
 ```
@@ -106,6 +107,3 @@ Found first three letters in the first word, along with identifying the remainde
 $1$3, $6, $5
 ```
 Tied together the first three letters of the species and genus name, erasing the extra letters that followed in each. Switched the position of each of the two number sets. 
-
-
-
