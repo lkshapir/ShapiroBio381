@@ -1,0 +1,79 @@
+---
+title: 'HW #5'
+author: "Lily Shapiro"
+date: "2/12/2020"
+output: html_document
+---
+1. Assign to the variable `n_dims` a single random integer between 3 and 10
+```{r}
+n_dims <- floor(runif(1,3,10))
+print(n_dims)
+vec <- seq(c(1:(n_dims)^2))
+sample(vec)
+
+m <- matrix(data=vec, nrow=n_dims, ncol=n_dims)
+print(m)
+
+m2 <- t(m)
+print(m2)
+
+#Sum of elements in first row:
+sum(m2[1,])
+#Sum of elements in the last row:
+sum(m2[n_dims,])
+#Mean of elements in the first row:
+mean(m2[1,])
+#Mean of elements in the last row:
+mean(m2[n_dims,])
+
+eigen(m2)
+typeof(eigen(m2)$values) #complex values 
+typeof(eigen(m2)$vectors) #complex vectors 
+
+```
+
+2. Create a list with the following named elements:
+```{r}
+my_matrix <- matrix(data=runif(16), ncol=4, nrow=4)
+print(my_matrix)
+
+z <- runif(100)
+my_logical <- c(z<0.3)
+print(my_logical)
+
+my_letters <- sample(letters[1:26])
+print(my_letters)
+
+list1 <- list(my_matrix,my_logical,my_letters)
+str(list1)
+
+list2 <- list(my_matrix[2,2], my_logical[2], my_letters[2])
+print(list2)
+typeof(list2[[1]]) #double
+typeof(list2[[2]]) #logical
+typeof(list2[[3]]) #character
+str(list2)
+
+largevec <- c(list2[[1]],list2[[2]],list2[[3]])
+print(largevec)
+typeof(largevec) #character
+```
+
+3. Create a data frame with two variables (=columns) and 26 cases
+```{r}
+my_unis <- runif(26,min=0, max=10)
+my_letters <- sample(LETTERS[1:26])
+my_frame <- data.frame(my_unis,my_letters,stringsAsFactors = FALSE)
+print(my_frame)
+
+my_frame[sample(nrow(my_frame), 4),1 ]<- NA
+print(my_frame)
+
+ 
+which(is.na(my_frame))
+
+my_frame[order(my_frame$my_letters),]
+
+mean(my_frame$my_unis, na.rm=TRUE)
+
+```
