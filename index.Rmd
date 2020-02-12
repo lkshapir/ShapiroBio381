@@ -3,8 +3,7 @@ title: "Bio381 Web Page"
 author: "Lily Shapiro"
 date: "1/22/2020"
 output: 
-  html_document: 
-    theme: yeti
+  html_document
 ---
 
 ```{r setup, include=FALSE}
