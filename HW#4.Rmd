@@ -1,7 +1,6 @@
 ---
 title: "HW#4"
 author: "Lily Shapiro"
-date: "2/5/2020"
 output: html_document
 ---
 **1.**
