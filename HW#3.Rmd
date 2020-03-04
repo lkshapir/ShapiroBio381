@@ -1,7 +1,6 @@
 ---
 title: "HW#3"
 author: "Lily Shapiro"
-date: "1/29/2020"
 output: html_document
 ---
 **Regular Expressions**
