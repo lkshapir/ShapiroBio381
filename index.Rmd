@@ -2,8 +2,7 @@
 title: "Bio381 Web Page"
 author: "Lily Shapiro"
 date: "1/22/2020"
-output: 
-  html_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -27,4 +26,11 @@ knitr::opts_chunk$set(echo = TRUE)
 <br/>
 [Matrices, Lists, Data Frames](HW-5.html)
 
+**Homework #5 (will add-in)**
+
+**Homework #6 (will add-in)**
+
+**Homework #7**
+<br/>
+[Data Manipulation using `dplyr`](HW-8.html)
 

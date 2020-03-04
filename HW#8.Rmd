@@ -1,0 +1,50 @@
+---
+title: "HW#8"
+author: "Lily Shapiro"
+date: "3/4/2020"
+output: html_document
+---
+**1.** 
+```{r}
+library(dplyr)
+data(iris)
+glimpse(iris)
+```
+There are 150 Observations, and 5 variables (descriptors) in the iris dataset
+
+**2.**
+```{r}
+iris1 <- filter(iris, Species %in% c("virginica", "versicolor"), Sepal.Length > 6, Sepal.Width > 2.5)
+glimpse(iris1)
+```
+There are now 56 observations, and 5 variables after filtering the dataset
+
+**3.**
+```{r}
+iris2 <- select(iris1, 1:2, Species)
+glimpse(iris2)
+```
+There are still 56 observations in the dataset, but only three variables (Species, Sepal length and Sepal width)
+
+**4.** 
+```{r}
+iris3 <- arrange(iris2, by=desc(Sepal.Length))
+head(iris3, n=6)
+```
+**5.**
+```{r}
+iris4 <- mutate(iris3, Sepal.Area=Sepal.Length*Sepal.Width)
+glimpse(iris4)
+```
+There are now 4 variables (with the addition of Sepal.Area) and 56 observations in the dataset 
+
+**6.**
+```{r}
+iris5 <- summarize(iris4, MeanSepalLength=mean(Sepal.Length), MeanSepalWidth=mean(Sepal.Width), SampleSize=n())
+print(iris5)
+```
+**7.**
+```{r}
+iris6 <- (group_by(iris4, Species) %>% summarize(MeanSepalLength=mean(Sepal.Length), MeanSepalWidth=mean(Sepal.Width), SampleSize=n()))
+print(iris6)
+```

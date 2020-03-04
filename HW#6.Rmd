@@ -1,0 +1,95 @@
+---
+title: 'Homework #6'
+author: "Lily Shapiro"
+date: "2/19/2020"
+output: html_document
+---
+```{r}
+library(ggplot2) # for graphics
+library(MASS) # for maximum likelihood estimation
+```
+#Data
+```{r}
+z <- read.table("LLAS.cwu.igs08.csv", header=TRUE,sep=',',stringsAsFactors = FALSE)
+str(z)
+summary(z)
+```
+
+quick and dirty, a truncated normal distribution to work on the solution set
+```{r}
+z <- data.frame(z)
+names(z) <- list("ID","myVar")
+z <- z[z$myVar>0,]
+str(z)
+summary(z$myVar)
+```
+#Data Histogram
+```{r}
+p1 <- ggplot(data=z, aes(x=Vertical..mm.,y=..density..)) + geom_histogram(color="grey60",fill="cornsilk",size=0.2)
+print(p1)
+```
+
+#Empirical Density
+
+```{r}
+p1 <-  p1 + geom_density(linetype="dotted",size=0.75, )
+print(p1)
+```
+#ML Parameters
+
+```{r}
+normPars <- fitdistr(z$Vertical..mm.,"normal")
+print(normPars)
+str(normPars)
+normPars$estimate["mean"] # note structure of getting a named attribute
+```
+
+#Normal Probability Density
+```{r}
+meanML <- normPars$estimate["mean"]
+sdML <- normPars$estimate["sd"]
+
+xval <- seq(0,max(z$Vertical..mm.),len=length(z$Vertical..mm.))
+
+stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$Vertical..mm.), args = list(mean = meanML, sd = sdML))
+p1 + stat
+```
+
+#Exponential probability density
+```{r}
+expoPars <- fitdistr(z$Vertical..mm.,"exponential")
+rateML <- expoPars$estimate["rate"]
+
+stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$Vertical..mm.), args = list(rate=rateML))
+ p1 + stat + stat2
+```
+Some values in my vertical distance category were negative (to represent sinking), which are incompatible with a Exponential probability density, so values less than 0 are ignored, resulting in this (interesting) curve
+#Uniform probability density 
+```{r}
+stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$Vertical..mm.), args = list(min=min(z$Vertical..mm.), max=max(z$Vertical..mm.)))
+p1 + stat + stat2 + stat3
+```
+#Gamma probability density
+```{r}
+gammaPars <- fitdistr(z$Vertical..mm.,"gamma")
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+
+stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$Vertical..mm.), args = list(shape=shapeML, rate=rateML))
+p1 + stat + stat2 + stat3 + stat4
+```
+Same situation for gamma probability curve as exponential 
+#Beta probability density
+```{r}
+pSpecial <- ggplot(data=z, aes(x=z$Vertical..mm./(max(z$Vertical..mm. + 0.1)), y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
+  xlim(c(0,1)) +
+  geom_density(size=0.75,linetype="dotted")
+
+betaPars <- fitdistr(x=z$Vertical..mm./max(z$Vertical..mm. + 0.1),start=list(shape1=1,shape2=2),"beta")
+shape1ML <- betaPars$estimate["shape1"]
+shape2ML <- betaPars$estimate["shape2"]
+
+statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
+pSpecial + statSpecial
+```
