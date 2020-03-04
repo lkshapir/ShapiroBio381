@@ -63,7 +63,7 @@ arrange(starwarsClean, by=desc(height))
 # descending, changes order
 
 arrange(starwarsClean, height, desc(mass))
-# shortest to tallest, if they have the same height, put more massive first
+# tallest to shortest, if they have the same height, put more massive first
 # add additional argument to break ties in preceding column 
 
 starwars1 <- arrange(starwars, height)
@@ -138,3 +138,4 @@ starwarsClean %>%
   group_by(gender) %>%
   summarize(meanHeight = mean(height), 
             number=n())
+

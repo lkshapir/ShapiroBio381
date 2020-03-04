@@ -1,0 +1,116 @@
+---
+title: "HW 4"
+author: "Lily Shapiro"
+date: "3/4/2020"
+output: html_document
+---
+**1.**
+```{r}
+x <- 1.1 
+a <- 2.2
+b <- 3.3
+```
+
+a. 
+```{r}
+z <- (x^a^b)
+print(z)
+```
+
+b. 
+```{r}
+z <- ((x^a)^b)
+print (z)
+```
+
+c. 
+```{r}
+z <- ((3*x^3)+(2*x^2)+1)
+print(z)
+```
+
+**2.**
+a. 
+```{r}
+c(seq(1,8), seq(7,1))
+```
+b. 
+```{r}
+rep(1:5, c(1,2,3,4,5))
+
+```
+c. 
+``` {r}
+rep(5:1, c(1,2,3,4,5))
+```
+
+**3.**
+```{r}
+xy <- runif(2)
+print(xy)
+
+r2 <- ((xy[1]^2) + (xy[2]^2))
+print(r2)
+r <- sqrt(r2)
+print(r)
+
+theta <- atan((xy[2])/(xy[1]))
+print(theta)
+
+polar_coords <-c(r,theta)
+print(polar_coords)
+
+```
+
+**4.**
+
+a. 
+```{r}
+queue <- c("sheep", "fox", "owl", "ant")
+print(queue)
+queue1 <- c(queue, "serpent")
+print(queue1)
+```
+b. 
+```{r}
+queue2 <-c(queue1[-1])
+print(queue2)
+```
+
+c. 
+```{r}
+queue <- c("donkey", queue2)
+print(queue)
+```
+d. 
+```{r}
+queue_d <-c(queue[-5])
+print(queue_d)
+
+```
+e. 
+```{r}
+queue_e <-c(queue_d[-3])
+print(queue_e)
+```
+f. 
+```{r}
+queue_f <- append(queue_e, "aphid", after=2)
+print(queue_f)
+```
+g. 
+Aphid is in the third position in line 
+
+```{r}
+queue_f[3]
+```
+
+**5**
+```{r}
+v <- seq(1:100)
+print(v)
+
+y <- v[v%%2 !=0 & v%%3 !=0 & v%%7 !=0]
+print(y)
+```
+

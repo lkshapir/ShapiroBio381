@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Homework #3**
 <br/>
-[R problems](HW-4.html)
+[R problems](HW_4.html)
 
 **Homework #4**
 <br/>
