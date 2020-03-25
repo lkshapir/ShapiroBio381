@@ -38,8 +38,11 @@ ANOPlot <- ggplot(data=ano_data, aes(x=Origin, y=ColonizationTime, fill=Origin))
 print(ANOPlot)
 
 ```
-Manipulating Means of the two groups:
+
+**Manipulating Means of the two groups:**
+
 The smallest possible effect size where the correlation between origin and colonization time is still significant rests at around a difference of 1.5 (million years). If the mean GAARlandia time is set at 11.5 and the mean time variable for North America is set at 10, the ANOVA analysis returns a significant value generally slightly under 0.05. Decreasing the effect size more than this results in the erasure of a significant pattern between the two variables. 
 
-Manipulating Sample Size:
+**Manipulating Sample Size:**
+
 Sample sizes set to 2 still indicate a significant relationship between origin and colonization time, which is somewhat staggering! 
