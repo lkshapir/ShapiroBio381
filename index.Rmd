@@ -28,7 +28,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Homework #5 (will add-in)**
 
-**Homework #6 (will add-in)**
+**Homework #6**
+<br/>
+[Creating Fake Data Sets to Explore Hypotheses](HW-7.html)
 
 **Homework #7**
 <br/>

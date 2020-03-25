@@ -1,7 +1,6 @@
 ---
 title: 'HW #5'
 author: "Lily Shapiro"
-date: "2/12/2020"
 output: html_document
 ---
 1. Assign to the variable `n_dims` a single random integer between 3 and 10

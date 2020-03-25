@@ -1,0 +1,45 @@
+---
+title: "HW#7"
+author: "Lily Shapiro"
+date: "3/25/2020"
+output:
+  html_document: default
+  pdf_document: default
+---
+ In the absence of distinct treatment groups for my project, the 
+data frame was created predicated on the assumption that species within the genus 
+*Micrathena* colonized the Caribbean from South America via the GAARlandia land bridge, which connected northern South America (Colombia) with the Greater Antilles, or more recently from Florida via overwater dispersal .If the GAARlandia route occurred, we should see an increased number of speciation events (branching) between ancestral South American taxa and new Caribbean taxa at the time of the bridge (30-35 mya) in modern Caribbean clades. 
+Therefore, the mean in this model represents the mean divergence time (in millions of years) between these two taxon groups, and also represents the peak area of GAARlandia, at 30 with a s.d. of 5 to represent the time span where the bridge might have also been emergent. The sample size I have set is 150 individuals, representing an adequate sampling of S.A. and C.A. taxa that may present this distinct phylogeographic pattern. Conversely, species that colonized the Caribbean from North America would have a wildly variable colonization history, probably with a mean divergence time closer to present @ about 10 mya [from FL], with a s.d of 3 mya- sample size will be the same. 
+
+```{r}
+library(ggplot2)
+n_group <- 2
+n_Name <- c("GAArlandia","NorthAmerica")
+GAArlandia <- rnorm(n=150,mean=30,sd=5)
+NorthAmerica <- rnorm(n=150,mean=10,sd=3)
+n_size <- c(150,150)
+
+id <- 1:sum(n_size)
+ColonizationTime <- c(GAArlandia, NorthAmerica)
+Origin <- rep(n_Name,n_size)
+ano_data <- data.frame(id, Origin,ColonizationTime)
+head(ano_data)
+tail(ano_data)
+
+```
+
+ANOVA of colonization data:
+```{r}
+ANOmodel <- aov(ColonizationTime~Origin,data=ano_data)
+print(ANOmodel)
+print(summary(ANOmodel))
+
+ANOPlot <- ggplot(data=ano_data, aes(x=Origin, y=ColonizationTime, fill=Origin)) + geom_boxplot()
+print(ANOPlot)
+
+```
+Manipulating Means of the two groups:
+The smallest possible effect size where the correlation between origin and colonization time is still significant rests at around a difference of 1.5 (million years). If the mean GAARlandia time is set at 11.5 and the mean time variable for North America is set at 10, the ANOVA analysis returns a significant value generally slightly under 0.05. Decreasing the effect size more than this results in the erasure of a significant pattern between the two variables. 
+
+Manipulating Sample Size:
+Sample sizes set to 2 still indicate a significant relationship between origin and colonization time, which is somewhat staggering! 
