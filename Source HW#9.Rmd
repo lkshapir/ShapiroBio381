@@ -1,0 +1,76 @@
+---
+title: "HW#9 Function Template"
+author: "Lily Shapiro"
+date: "4/1/2020"
+output: html_document
+---
+```{r}
+# ----------------------------------------
+# FUNCTION get_Mdata
+# description: Retrieving data from HW#7 (saved file)
+# inputs: .csv file 
+# outputs: data frame
+##########################################
+make_data <- function(n_group=n_group,
+                      n_names=n_names,
+                      n_size=n_size,
+                      n_means=n_means,
+                      n_sds=n_sds
+                      ) {
+  
+  id <- 1:sum(n_size)
+  ColonizationTime <- c(rnorm(n=n_size[1],mean=n_means[1],sd=n_sds[1]),rnorm(n=n_size[2],mean=n_means[2],sd=n_sds[2]))
+  
+  Origin <- rep(n_names,n_size)
+  M_data <- data.frame(id,Origin,ColonizationTime)
+  
+return(M_data)
+
+} # end of get_Mdata
+#-----------------------------------------
+# ----------------------------------------
+# FUNCTION calc_ANOVA
+# description: Does ANOVA between Origin and Colonization Time variables in Micrathena data
+# inputs: Origin and Colonization Time parameters, normally distributed
+# outputs: model summary and graph
+##########################################
+calc_ANOVA <- function(data=Mic_data) {
+  
+  ANOmodel <- aov(ColonizationTime~Origin, data=data)
+  
+return(summary(ANOmodel))
+
+} # end of calc_ANOVA
+#-----------------------------------------
+# ----------------------------------------
+# FUNCTION make_boxplot
+# description: make a boxplot from ANOVA calcs 
+# inputs: Mic_data, x_var(Origin), y_var=ColonizationTime 
+# outputs: output_description
+##########################################
+make_boxplot <- function(data=Mic_data) {
+   
+   ANOplot <- ggplot(data=data, aes(x=Origin, y=ColonizationTime, fill=Origin)) + geom_boxplot()
+
+# function body
+
+return(print(ANOplot))
+
+} # end of make_boxplot
+#-----------------------------------------
+# ----------------------------------------
+# FUNCTION compare_dist
+# description: Compares distributions between two origins
+# inputs: Mic_data, x values (Colonization Time), groupings
+# outputs: Graph of fake data distributions
+##########################################
+compare_dis <- function(data=Mic_data){
+  
+p <- ggplot(data=Mic_data, aes(x=ColonizationTime, group=Origin, fill=Origin, main="Caribbean colonization over time")) + 
+  geom_density(adjust=1.5, alpha=0.6) + (scale_fill_manual(values = wes_palette("Darjeeling1")))
+  
+
+return(print(p))
+}
+# end of compare_dis
+#-----------------------------------------

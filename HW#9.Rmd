@@ -1,0 +1,49 @@
+---
+title: "HW#9"
+author: "Lily Shapiro"
+date: "4/1/2020"
+output: html_document
+---
+ ----------------------------------------
+HW#9: Organizing Code with Structured Programming**
+25 Mar 2020
+LKS
+ ----------------------------------------
+**1.** Use the code that you worked on in Homework #7 (creating fake data sets) , and re-organize it following the principles of structured programming
+
+Global Variables
+```{r}
+library(ggplot2)
+library(wesanderson)
+source("HW#9_FunctionTemplate.R") 
+n_group <- 2
+n_names <- c("GAArlandia", "North America")
+n_size <- c(150,150)
+n_means <- c(30,10)
+n_sds <- c(5,3)
+```
+
+```{r}
+# Make_data-------------------------
+Mic_data <- make_data(n_group=n_group,
+                      n_names=n_names,
+                      n_size=n_size,
+                      n_means=n_means,
+                      n_sds=n_sds)
+```
+
+```{r}
+# Run ANOVA and display graphs -------------------------
+model <- calc_ANOVA()
+print(model) #ANOVA Summary 
+figure1 <- make_boxplot()  
+```
+
+**2.**
+```{r}
+# Compare distributions -------------------------
+distributions <- compare_dis()
+```
+
+[Link to source code](Source-HW-9.html)
+

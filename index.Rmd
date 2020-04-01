@@ -36,3 +36,7 @@ knitr::opts_chunk$set(echo = TRUE)
 <br/>
 [Data Manipulation using `dplyr`](HW-8.html)
 
+**Homeworkd #8**
+<br/>
+[Organizing Code With Structured Programming](HW-9.html)
+
