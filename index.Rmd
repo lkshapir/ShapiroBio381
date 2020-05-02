@@ -11,32 +11,46 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Portfolio 
 
-**Homework #1**     
+**Homework #2**     
 [Typora Document](Practice.html)
-
-**Homework #2**
-<br/>
-[Regular Expressions Puzzles](HW3.html)
 
 **Homework #3**
 <br/>
-[R problems](HW_4.html)
+[Regular Expressions Puzzles](HW3.html)
 
 **Homework #4**
 <br/>
+[R problems](HW_4.html)
+
+**Homework #5**
+<br/>
 [Matrices, Lists, Data Frames](HW-5.html)
 
-**Homework #5 (will add-in)**
-
-**Homework #6**
-<br/>
-[Creating Fake Data Sets to Explore Hypotheses](HW-7.html)
+**Homework #6 (will add-in)**
 
 **Homework #7**
 <br/>
-[Data Manipulation using `dplyr`](HW-8.html)
+[Creating Fake Data Sets to Explore Hypotheses](HW-7.html)
 
 **Homework #8**
 <br/>
+[Data Manipulation using `dplyr`](HW-8.html)
+
+**Homework #9**
+<br/>
 [Organizing Code With Structured Programming](HW-9.html)
+
+**Homework #10**
+<br/>
+[For-loops and Randomization tests]()
+
+**Homework #11**
+<br/>
+[Batch Processing](HW-11.html)
+
+**Homework #12**
+<br/>
+[Advanced ggplotting](HW-12.html)
+
+
 
