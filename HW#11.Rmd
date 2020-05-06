@@ -1,0 +1,81 @@
+---
+title: "HW#11"
+author: "Lily Shapiro"
+date: "4/30/2020"
+output: html_document
+---
+
+1. Files for batch processing are composed of data detailing soil and air temperatures from the years 2009-2011 (three independent files), used in a publication by [Hofmeister et al.](https://www.researchgate.net/publication/334971184_Microclimate_edge_effect_in_small_fragments_of_temperate_forests_in_the_context_of_climate_change), to understand microclimate edge effect relation to climate change. Data was retrieved from the open-access Mendeley datset since I personally did not have data relevant to this excersise. 
+
+```{r}
+#Create function to pull out statistical info 
+# ----------------------------------------
+# FUNCTION stats
+# description: fits linear models and extracts statistics
+# inputs: 2- column data frame (x and y)
+# outputs: slope, p value and r2
+##########################################
+ stats <- function(d=NULL) {
+  
+          if(is.null(d)) {
+            x_var <- runif(100)
+            y_var <- runif(100)
+            d <- data.frame(x_var,y_var)
+          }
+  
+  . <- lm(data=,d[,2]~d[,1])
+  . <- summary(.)
+  stats_list <- list(Slope=.$coefficients[2,1], 
+                     pVal =.$coefficients[2,4],
+                     r2=.$r.squared)
+  
+
+return(stats_list)
+
+} # end of stats
+#-----------------------------------------
+#-----------------------------------------
+
+# Global Variables
+file_folder <- "SoilStats/"
+n_files <- 3
+file_out <- "SoilStatsSummary.csv"
+file_names <- list.files(path = file_folder)
+# Create a data frame to hold summary files statistics
+ID <- seq_along(file_names)
+file_name <- file_names
+slope <- rep(NA,length(file_name))
+pval <- rep(NA,length(file_name))
+r2 <- rep(NA,length(file_name))
+
+stats_out <- data.frame(ID, file_name,slope,pval,r2)
+
+# batch process by looping through individual files 
+
+for (i in seq_along(file_names)){
+  SO <- read.table(file=paste(file_folder, file_names[i], 
+                                sep=""), 
+                                sep=",",
+                                header = TRUE)
+  . <- stats(SO) #pull out regression stats
+  stats_out[i,3:5]<- . #unlist, copy into last 3 columns
+}
+
+# set up output file and incorporate time stamp and minimal metadata
+
+write.table(cat("# Summary stats for", 
+                " batch processing of regression models",
+                "\n",
+                "# timestamp:",
+                as.character(Sys.time()),
+                "\n",
+                file=file_out, 
+                row.names="",
+                col.names="",
+                sep=""))
+
+write.table(x = stats_out, file=file_out, row.names=FALSE, col.names=TRUE,sep=",",append=TRUE)
+
+print(stats_out)
+
+```

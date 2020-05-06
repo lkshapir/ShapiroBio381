@@ -22,9 +22,11 @@ n_size <- c(150,150)
 id <- 1:sum(n_size)
 ColonizationTime <- c(GAArlandia, NorthAmerica)
 Origin <- rep(n_Name,n_size)
+Origin
 ano_data <- data.frame(id, Origin,ColonizationTime)
 head(ano_data)
 tail(ano_data)
+write.csv(ano_data,"/Users/lilyshapiro/Documents/Grad Semester 2/Computational Biology/ShapiroBio381\\MicrathenaData.csv") #For Future Use in HW 9
 
 ```
 

@@ -26,7 +26,9 @@ knitr::opts_chunk$set(echo = TRUE)
 <br/>
 [Matrices, Lists, Data Frames](HW-5.html)
 
-**Homework #6 (will add-in)**
+**Homework #6**
+<br/>
+[Fitting and Simulating Data Distributions](HW-6.html)
 
 **Homework #7**
 <br/>
@@ -42,7 +44,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Homework #10**
 <br/>
-[For-loops and Randomization tests]()
+[For-loops and Randomization tests](HW-10.html)
 
 **Homework #11**
 <br/>

@@ -1,0 +1,44 @@
+
+**HW#12 : Advanced ggplotting**   
+01 May 2020   
+LKS   
+
+1. For this exercise, use your newly-developed ggplot chops to create some nice graphs from your own data (If you do not have a good data frame to use for graphics, use one of the many built-in data frames from R (other than mpg, which we are using in class)). Experiment with different themes, theme base sizes, aesthetics, mappings, and faceting. When you are finished, try exporting them to high quality pdfs, jpgs, eps files, or other formats that you would use for submission to a journal.
+
+First graphing attempt at creating an empty, interesting looking map (not for my own data publication)
+
+```{r message = FALSE}
+library(rworldmap)
+library(rworldxtra)
+library(ggmap)
+library(ggplot2)
+library(wesanderson)
+
+micra <- read.csv("North_American_Micrathena.csv")
+
+
+Car <- c(left = -110, bottom=6, right=-60, top=35) #set frame w/ lat and long 
+get_stamenmap(Car, zoom=4, maptype="watercolor") %>% ggmap() #pipe map type into ggmap framework 
+
+#obviously ugly coloration, but I liked it for this exercise
+```
+Create a map of collection localities for *Micrathena* species 
+```{r message=FALSE}
+qmplot(Longitude, Latitude, data=micra, zoom=5, source = "stamen", maptype = "toner-lite", legend = "left", extent = "devicee", padding=0.2, color=Species, main="Collection Localities of North American and Caribbean Micrathena") + theme(plot.title = element_text(hjust=0.5))
+```
+
+Stacked bar plots of species collected per country or region 
+```{r}
+#Bar Plot of species records/ country
+species_per_co <- table(micra$Species,micra$Location)
+species_per_co <- data.frame(species_per_co)
+colnames(species_per_co) <- c("Species", "Location", "Freq")
+
+#Using wes anderson color palette 
+ggplot(data = species_per_co, aes(fill=Species, y=Freq, x=Location)) + scale_fill_manual(values=wes_palette(n=9, "FantasticFox1", type= "continuous")) + geom_bar(position = "stack", stat = "identity") + ggtitle("Species of Micrathena collected per region") + theme_minimal(base_size = 10, base_family = "serif") + theme(plot.title = element_text(hjust=0.5), legend.title = element_text(face="bold"), legend.text = element_text(face="italic"), axis.text.x = element_text(size=4.5)) 
+
+#Could facet wrap but locations are tricky to read
+ggplot(data = species_per_co, aes(fill=Species, y=Freq, x=Location)) + scale_fill_manual(values=wes_palette(n=9, "FantasticFox1", type= "continuous")) + geom_bar(position = "stack", stat = "identity") + ggtitle("Species of Micrathena collected per region") + theme_minimal(base_size = 10, base_family = "serif") + theme(plot.title = element_text(hjust=0.5), axis.text.x = element_text(size=4.5)) + facet_wrap(~Species, scales = "free_x") + theme(strip.text.x = element_text(size=10, face='italic'), legend.text=element_text(face="italic"))
+
+```
+

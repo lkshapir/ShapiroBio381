@@ -8,24 +8,17 @@ output: html_document
 library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
 ```
-#Data
+Data retrieved from [UNAVCO](https://connect.unavco.org/display/n546123)
 ```{r}
-z <- read.table("LLAS.cwu.igs08.csv", header=TRUE,sep=',',stringsAsFactors = FALSE)
-str(z)
-summary(z)
+LLAS <- read.table("LLAS.cwu.igs08.csv", header=TRUE,sep=',',stringsAsFactors = FALSE)
+str(LLAS)
+summary(LLAS)
 ```
 
-quick and dirty, a truncated normal distribution to work on the solution set
-```{r}
-z <- data.frame(z)
-names(z) <- list("ID","myVar")
-z <- z[z$myVar>0,]
-str(z)
-summary(z$myVar)
-```
+
 #Data Histogram
 ```{r}
-p1 <- ggplot(data=z, aes(x=Vertical..mm.,y=..density..)) + geom_histogram(color="grey60",fill="cornsilk",size=0.2)
+p1 <- ggplot(data=LLAS, aes(x=Vertical..mm.,y=..density..)) + geom_histogram(color="grey60",fill="cornsilk",size=0.2)
 print(p1)
 ```
 
@@ -38,10 +31,11 @@ print(p1)
 #ML Parameters
 
 ```{r}
-normPars <- fitdistr(z$Vertical..mm.,"normal")
+normPars <- fitdistr(LLAS$Vertical..mm.,"normal")
 print(normPars)
 str(normPars)
-normPars$estimate["mean"] # note structure of getting a named attribute
+normPars$estimate["mean"] 
+# note structure of getting a named attribute
 ```
 
 #Normal Probability Density
@@ -49,47 +43,70 @@ normPars$estimate["mean"] # note structure of getting a named attribute
 meanML <- normPars$estimate["mean"]
 sdML <- normPars$estimate["sd"]
 
-xval <- seq(0,max(z$Vertical..mm.),len=length(z$Vertical..mm.))
+xval <- seq(0,max(LLAS$Vertical..mm.),len=length(LLAS$Vertical..mm.))
 
-stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$Vertical..mm.), args = list(mean = meanML, sd = sdML))
+stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(LLAS$Vertical..mm.), args = list(mean = meanML, sd = sdML))
 p1 + stat
 ```
 
 #Exponential probability density
 ```{r}
-expoPars <- fitdistr(z$Vertical..mm.,"exponential")
+posLLAS <- LLAS[which(LLAS$Vertical..mm.>1),]
+expoPars <- fitdistr(posLLAS$Vertical..mm.,"exponential")
 rateML <- expoPars$estimate["rate"]
 
-stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$Vertical..mm.), args = list(rate=rateML))
+stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(LLAS$Vertical..mm.), args = list(rate=rateML))
  p1 + stat + stat2
 ```
 Some values in my vertical distance category were negative (to represent sinking), which are incompatible with a Exponential probability density, so values less than 0 are ignored, resulting in this (interesting) curve
 #Uniform probability density 
 ```{r}
-stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$Vertical..mm.), args = list(min=min(z$Vertical..mm.), max=max(z$Vertical..mm.)))
+stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(LLAS$Vertical..mm.), args = list(min=min(LLAS$Vertical..mm.), max=max(LLAS$Vertical..mm.)))
 p1 + stat + stat2 + stat3
 ```
 #Gamma probability density
 ```{r}
-gammaPars <- fitdistr(z$Vertical..mm.,"gamma")
+gammaPars <- fitdistr(posLLAS$Vertical..mm.,"gamma")
 shapeML <- gammaPars$estimate["shape"]
 rateML <- gammaPars$estimate["rate"]
 
-stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$Vertical..mm.), args = list(shape=shapeML, rate=rateML))
+stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(LLAS$Vertical..mm.), args = list(shape=shapeML, rate=rateML))
 p1 + stat + stat2 + stat3 + stat4
 ```
 Same situation for gamma probability curve as exponential 
 #Beta probability density
 ```{r}
-pSpecial <- ggplot(data=z, aes(x=z$Vertical..mm./(max(z$Vertical..mm. + 0.1)), y=..density..)) +
+pSpecial <- ggplot(data=LLAS, aes(x=Vertical..mm./(max(Vertical..mm. + 0.1)), y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
   xlim(c(0,1)) +
   geom_density(size=0.75,linetype="dotted")
 
-betaPars <- fitdistr(x=z$Vertical..mm./max(z$Vertical..mm. + 0.1),start=list(shape1=1,shape2=2),"beta")
+betaPars <- fitdistr(x=posLLAS$Vertical..mm./max(posLLAS$Vertical..mm. + 0.1),start=list(shape1=1,shape2=2),"beta")
 shape1ML <- betaPars$estimate["shape1"]
 shape2ML <- betaPars$estimate["shape2"]
 
-statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
+statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(LLAS$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
 pSpecial + statSpecial
 ```
+Only the positive data represented in this curve 
+
+*5. Simulating the normal probability density*
+```{r}
+normPars
+str(normPars)
+LLAS_sim <- rnorm(length(LLAS$Vertical..mm.), mean=normPars$estimate["mean"], sd=normPars$estimate["sd"])
+
+sim <- ggplot(data=LLAS, aes(x=LLAS_sim,y=..density..)) + geom_histogram(color="grey60",fill="cornsilk",size=0.2)
+print(sim)
+
+xval <- seq(0,max(LLAS$Vertical..mm.),len=length(LLAS$Vertical..mm.))
+
+stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(LLAS$Vertical..mm.), args = list(mean = meanML, sd = sdML))
+sim + stat
+
+```
+Original data histogram:
+```{r}
+p1 + stat 
+```
+Simulated data using the model are very similar to the real data, and histograms appear very similar as well, although the real set has more datapoints less than 0 than the simulated set. This is a rather large collection of data, so the fitted model will likely be representative. 
